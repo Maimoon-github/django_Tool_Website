@@ -2,99 +2,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tool Website</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Tools</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-container">
-            <a href="/" class="navbar-brand">ToolSite</a>
-            <ul class="navbar-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Tools</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
+  <header>
+    <div class="container nav">
+      <h1 class="logo">TOOLS</h1>
+      <nav>
+        <a href="{% url 'blog_index' %}">Home</a>
+        <a href="#">Products</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>{{ hero.headline }}</h1>
-        <p>{{ hero.subheading }}</p>
-        <a href="#" class="btn-primary">{{ hero.cta }}</a>
-    </section>
+  <section class="hero">
+    <div class="container">
+      <h2>Blog</h2>
+      <p><a href="{% url 'blog_index' %}">Home</a> > Blog</p>
+    </div>
+  </section>
 
-    <!-- Search Bar -->
-    <section class="search-bar">
-        <input type="text" placeholder="Search tools..." />
-        <button>Search</button>
-    </section>
+  <main class="container blog-grid">
+    {% for post in blog_posts %}
+    <div class="blog-card">
+      <img src="{% static post.image %}" alt="{{ post.title }}">
+      <h3>{{ post.title }}</h3>
+      <span class="date">{{ post.date }}</span>
+      <p>{{ post.content|truncatechars:100 }}</p>
+      <a href="{% url 'blog_detail' forloop.counter0 %}" class="read-more">Read More</a>
+    </div>
+    {% endfor %}
+  </main>
 
-    <!-- Featured Tools -->
-    <section class="featured-tools">
-        <h2>Featured Tools</h2>
-        <div class="tools-grid">
-            {% for tool in featured_tools %}
-                <div class="tool-card">
-                    <h3>{{ tool.title }}</h3>
-                    <p>{{ tool.description }}</p>
-                    <a href="#" class="btn-secondary">{{ tool.cta }}</a>
-                </div>
-            {% endfor %}
-        </div>
-    </section>
-
-    <!-- How It Works -->
-    <section class="how-it-works">
-        <h2>How It Works</h2>
-        <ol>
-            {% for step in how_it_works %}
-                <li>{{ step }}</li>
-            {% endfor %}
-        </ol>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <h2>What Our Users Say</h2>
-        <div class="carousel">
-            {% for testimonial in testimonials %}
-                <blockquote>
-                    <p>"{{ testimonial.quote }}"</p>
-                    <footer>- {{ testimonial.name }}</footer>
-                </blockquote>
-            {% endfor %}
-        </div>
-    </section>
-
-    <!-- Newsletter Signup -->
-    <section class="newsletter">
-        <h2>Stay Updated</h2>
-        <p>Get tips & new tools delivered weekly.</p>
-        <form>
-            <input type="email" placeholder="Enter your email" required />
-            <button type="submit">Subscribe</button>
-        </form>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <ul>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-        </ul>
-        <div class="social-icons">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">LinkedIn</a>
-        </div>
-    </footer>
+  <div class="container pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}"><button>Previous</button></a>
+    {% endif %}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}"><button>Next</button></a>
+    {% endif %}
+  </div>
 </body>
 </html>

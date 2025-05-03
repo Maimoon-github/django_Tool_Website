@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog Post</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">TOOLS</div>
+      <nav>
+        <a href="{% url 'blog_index' %}">Home</a>
+        <a href="#">Products</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="blog-post">
+    <div class="container">
+      {% if post %}
+        <h1>{{ post.title }}</h1>
+        <p class="date">{{ post.date }}</p>
+        <img src="{% static post.image %}" alt="{{ post.title }}">
+        <p style="margin-top:20px;">{{ post.content }}</p>
+        <br><a href="{% url 'blog_index' %}">← Back to Blog</a>
+      {% else %}
+        <h2>Blog post not found</h2>
+        <a href="{% url 'blog_index' %}">← Back</a>
+      {% endif %}
+    </div>
+  </section>
+</body>
+</html>
